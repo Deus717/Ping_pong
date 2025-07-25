@@ -1,12 +1,11 @@
 from pygame import *
 
-'''
+#Класс родитель
 class GameSprite(sprite.Sprite):
  #конструктор класса
    def __init__(self, player_image, player_x, player_y, size_x, size_y, player_speed):
        #Вызываем конструктор класса (Sprite):
        sprite.Sprite.__init__(self)
-
 
        #каждый спрайт должен хранить свойство image - изображение
        self.image = transform.scale(image.load(player_image), (size_x, size_y))
@@ -24,25 +23,32 @@ class GameSprite(sprite.Sprite):
 #класс главного игрока
 class Player(GameSprite):
     #метод для управления спрайтом стрелками клавиатуры
-    def update(self):
+    def update_r(self):
         keys = key.get_pressed()
-        if keys[K_LEFT] and self.rect.x > 5:
-            self.rect.x -= self.speed
-        if keys[K_RIGHT] and self.rect.x < win_width - 80:
-            self.rect.x += self.speed
-    #метод "выстрел" (используем место игрока, чтобы создать там пулю)
-    def fire(self):
-        #Создаём пулю
-        bullet = Bullet(img_bullet, self.rect.centerx, self.rect.top, 15, 20, -15)
-        bullets.add(bullet)
+        if keys[K_UP] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_DOWN] and self.rect.y < 500 - 80:
+            self.rect.y += self.speed
 
-        '''
+    def update_l(self):
+        keys = key.get_pressed()
+        if keys[K_w] and self.rect.y > 5:
+            self.rect.y -= self.speed
+        if keys[K_s] and self.rect.y < 500 - 80:
+            self.rect.y += self.speed
+
+
+        
 
 back = (200,255,255)
 window = display.set_mode((600,500))
 window.fill(back)
-
 clock = time.Clock()
+
+#Создание мяча и ракеток
+racket1 = Player('racket.png',30,200,50,150,4)###
+racket2 = Player('racket.png',520,200,50,150,4)###
+ball = GameSprite("tenis_ball.png", 200,200, 50,50,4)###
 
 game = True
 while game == True:
@@ -50,6 +56,15 @@ while game == True:
         if ex.type == QUIT:
             game = False
 
+    window.fill(back)###
+    racket1.update_l()###
+    racket2.update_r()###
+
+    racket1.reset()###
+    racket2.reset()###
+    ball.reset()###
 
     display.update()
     clock.tick(60)
+
+
